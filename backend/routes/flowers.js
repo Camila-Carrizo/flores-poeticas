@@ -1,5 +1,7 @@
 import express from 'express';
-import Flower from '../models/Flower.js';
+import FlowerImport from '../models/Flower.js';
+
+const Flower = FlowerImport.default || FlowerImport;
 
 const router = express.Router();
 

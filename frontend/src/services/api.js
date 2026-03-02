@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+//Para local
+// const API_BASE = import.meta.env.VITE_API_URL || '/api';
+//Para producción
+const API_BASE = '/api';
 
 const api = axios.create({
   baseURL: API_BASE,

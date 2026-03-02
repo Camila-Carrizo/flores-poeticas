@@ -2,7 +2,7 @@
   "name": "flores-poeticas-backend",
   "version": "1.0.0",
   "description": "API REST para herbario poético - Flores",
-  "main": "functions/server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node functions/server.js",

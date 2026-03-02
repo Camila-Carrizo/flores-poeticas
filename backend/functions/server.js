@@ -14,6 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 Netlify monta todo bajo /.netlify/functions/server
+console.log('flowersRouter:', flowersRouter);
+console.log('uploadRouter:', uploadRouter);
+console.log('typeof flowersRouter:', typeof flowersRouter);
+console.log('typeof uploadRouter:', typeof uploadRouter);
 app.use('/api/flowers', flowersRouter);
 app.use('/api/upload-image', uploadRouter);
 

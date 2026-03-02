@@ -4,8 +4,11 @@ import cors from 'cors';
 import serverless from 'serverless-http';
 
 import { connectDB } from '../config/db.js';
-import flowersRouter from '../routes/flowers.js';
-import uploadRouter from '../routes/upload.js';
+import flowersRouterImport from '../routes/flowers.js';
+import uploadRouterImport from '../routes/upload.js';
+
+const flowersRouter = flowersRouterImport.default || flowersRouterImport;
+const uploadRouter = uploadRouterImport.default || uploadRouterImport;
 
 const app = express();
 
@@ -14,13 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 // 🔥 Netlify monta todo bajo /.netlify/functions/server
-if (typeof flowersRouter !== 'function') {
-  throw new Error('flowersRouter NO es función');
-}
 
-if (typeof uploadRouter !== 'function') {
-  throw new Error('uploadRouter NO es función');
-}
 app.use('/api/flowers', flowersRouter);
 app.use('/api/upload-image', uploadRouter);
 

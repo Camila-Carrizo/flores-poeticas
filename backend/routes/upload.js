@@ -1,6 +1,14 @@
 import express from 'express';
-import cloudinary from '../config/cloudinary.js';
-import { uploadImage } from '../config/multer.js';
+import multerImport from '../config/multer.js';
+import cloudinaryImport from '../config/cloudinary.js';
+
+const uploadImage =
+  multerImport.uploadImage ||
+  multerImport.default?.uploadImage ||
+  multerImport.default ||
+  multerImport;
+
+const cloudinary = cloudinaryImport.default || cloudinaryImport;
 
 const router = express.Router();
 

@@ -1,11 +1,10 @@
 [build]
   base = "backend"
-  functions = "functions"
   publish = "../frontend/dist"
   command = "cd ../frontend && npm install && npm run build"
 
 [functions]
-  directory = "backend/functions"
+  directory = "functions"
 
 [[redirects]]
   from = "/api/*"

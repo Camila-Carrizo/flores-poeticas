@@ -6,9 +6,11 @@ import serverless from 'serverless-http';
 import { connectDB } from '../config/db.js';
 import flowersRouterImport from '../routes/flowers.js';
 import uploadRouterImport from '../routes/upload.js';
+import colorsRouterImport from '../routes/colors.js';
 
 const flowersRouter = flowersRouterImport.default || flowersRouterImport;
 const uploadRouter = uploadRouterImport.default || uploadRouterImport;
+const colorsRouter = colorsRouterImport.default || colorsRouterImport;
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/flowers', flowersRouter);
 app.use('/api/upload-image', uploadRouter);
+app.use('/api/colors', colorsRouter);
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, message: 'API Flores Poéticas' });

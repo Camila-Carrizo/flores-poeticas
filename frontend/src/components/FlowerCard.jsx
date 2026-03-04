@@ -12,8 +12,9 @@ function truncateText(text, maxLength) {
 
 export default function FlowerCard({ flower, mode = 'read', onEdit, onDelete, onPreview }) {
   const briefMeaning = truncateText(flower.poeticMeaning, POETIC_PREVIEW_LENGTH);
-  const imageUrl = flower.image || 'https://placehold.co/400x240?text=Flor';
+  const imageUrl = flower.image || null;
   const fallbackUrl = 'https://placehold.co/400x240?text=Sin+imagen';
+  const bodyBg = flower.color?.hex || '#ffffff';
 
   const isManage = mode === 'manage';
 
@@ -39,17 +40,19 @@ export default function FlowerCard({ flower, mode = 'read', onEdit, onDelete, on
       hoverable
       onClick={onPreview ? handleCardClick : undefined}
       cover={
-        <img
-          alt={flower.name}
-          src={imageUrl}
-          onError={(e) => {
-            e.target.src = fallbackUrl;
-          }}
-        />
+        imageUrl ? (
+          <img
+            alt={flower.name}
+            src={imageUrl}
+            onError={(e) => {
+              e.target.src = fallbackUrl;
+            }}
+          />
+        ) : null
       }
       actions={actions}
     >
-      <div className="flower-card-body-wrap">
+      <div className="flower-card-body-wrap" style={{ backgroundColor: bodyBg }}>
         <Meta title={flower.name} />
         <p className="flower-card-poetic-preview">{briefMeaning}</p>
         {isManage && (

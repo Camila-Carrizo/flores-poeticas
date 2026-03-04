@@ -131,8 +131,9 @@ export default function Home() {
           name: selectedFlower.name,
           image: selectedFlower.image,
           poeticMeaning: selectedFlower.poeticMeaning,
+          color: selectedFlower.color?._id ?? undefined,
         }
-      : { name: '', image: '', poeticMeaning: '' };
+      : { name: '', image: '', poeticMeaning: '', color: undefined };
 
   return (
     <>

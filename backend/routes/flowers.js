@@ -8,7 +8,7 @@ const router = express.Router();
 // GET /api/flowers - Listar todas las flores
 router.get('/', async (req, res) => {
   try {
-    const flowers = await Flower.find().sort({ createdAt: -1 });
+    const flowers = await Flower.find().sort({ createdAt: -1 }).populate('color');
     res.json(flowers);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 // GET /api/flowers/:id - Obtener una flor por ID
 router.get('/:id', async (req, res) => {
   try {
-    const flower = await Flower.findById(req.params.id);
+    const flower = await Flower.findById(req.params.id).populate('color');
     if (!flower) {
       return res.status(404).json({ error: 'Flor no encontrada' });
     }

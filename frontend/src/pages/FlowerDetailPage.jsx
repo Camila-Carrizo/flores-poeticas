@@ -47,8 +47,9 @@ export default function FlowerDetailPage() {
     );
   }
 
-  const imageUrl = flower.image || 'https://placehold.co/800x400?text=Flor';
+  const imageUrl = flower.image || null;
   const fallbackUrl = 'https://placehold.co/800x400?text=Sin+imagen';
+  const bodyBg = flower.color?.hex || '#ffffff';
 
   return (
     <>
@@ -63,16 +64,20 @@ export default function FlowerDetailPage() {
       <Card
         className="flower-detail-card"
         cover={
-          <img
-            alt={flower.name}
-            src={imageUrl}
-            onError={(e) => { e.target.src = fallbackUrl; }}
-            style={{ maxHeight: 400, objectFit: 'cover' }}
-          />
+          imageUrl ? (
+            <img
+              alt={flower.name}
+              src={imageUrl}
+              onError={(e) => { e.target.src = fallbackUrl; }}
+              style={{ maxHeight: 400, objectFit: 'cover' }}
+            />
+          ) : null
         }
       >
-        <h1 className="herbario-title" style={{ marginBottom: 16 }}>{flower.name}</h1>
-        <p className="flower-detail-meaning">{flower.poeticMeaning}</p>
+        <div style={{ backgroundColor: bodyBg, margin: -24, padding: 24, borderRadius: '0 0 20px 20px' }}>
+          <h1 className="herbario-title" style={{ marginBottom: 16 }}>{flower.name}</h1>
+          <p className="flower-detail-meaning">{flower.poeticMeaning}</p>
+        </div>
       </Card>
     </>
   );

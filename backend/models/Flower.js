@@ -8,13 +8,18 @@ const flowerSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: [true, 'La imagen es obligatoria'],
+    required: false,
     trim: true,
   },
   poeticMeaning: {
     type: String,
     required: [true, 'El significado poético es obligatorio'],
     trim: true,
+  },
+  color: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Color',
+    default: null,
   },
   createdAt: {
     type: Date,

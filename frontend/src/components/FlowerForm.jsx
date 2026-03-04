@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, Button, Space, Upload, message } from 'antd';
+import { Form, Input, Button, Space, Upload, Select, message } from 'antd';
 import { PlusOutlined, LoadingOutlined, DeleteOutlined } from '@ant-design/icons';
 import { uploadImageFile } from '../services/uploadService';
+import { colorService } from '../services/colorService';
 
 const { TextArea } = Input;
 
@@ -16,14 +17,21 @@ const MAX_SIZE_MB = 5;
 export default function FlowerForm({ initialValues, onSubmit, onCancel, loading }) {
   const [form] = Form.useForm();
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [colors, setColors] = useState([]);
   const imageUrl = Form.useWatch('image', form);
 
   useEffect(() => {
-    form.setFieldsValue(initialValues || { name: '', image: '', poeticMeaning: '' });
+    form.setFieldsValue(initialValues || { name: '', image: '', poeticMeaning: '', color: undefined });
   }, [initialValues, form]);
 
+  useEffect(() => {
+    colorService.getColors().then(({ data }) => setColors(data)).catch(() => setColors([]));
+  }, []);
+
   const handleFinish = (values) => {
-    onSubmit(values);
+    const payload = { ...values };
+    if (payload.color === undefined || payload.color === '') payload.color = null;
+    onSubmit(payload);
   };
 
   const handleCancel = () => {
@@ -69,8 +77,8 @@ export default function FlowerForm({ initialValues, onSubmit, onCancel, loading 
         <Input placeholder="Ej: Rosa, Girasol…" size="large" />
       </Form.Item>
 
-      <Form.Item label="Imagen" required>
-        <Form.Item name="image" noStyle rules={[{ required: true, message: 'Subí una imagen' }]}>
+      <Form.Item label="Imagen (opcional)">
+        <Form.Item name="image" noStyle>
           <input type="hidden" />
         </Form.Item>
         {imageUrl ? (
@@ -129,6 +137,13 @@ export default function FlowerForm({ initialValues, onSubmit, onCancel, loading 
           placeholder="Un breve texto poético sobre la flor…"
           showCount
           maxLength={500}
+        />
+      </Form.Item>
+      <Form.Item name="color" label="Color (opcional)">
+        <Select
+          placeholder="Ninguno"
+          allowClear
+          options={colors.map((c) => ({ value: c._id, label: c.name }))}
         />
       </Form.Item>
       <Form.Item wrapperCol={{ span: 24 }} style={{ marginBottom: 0, marginTop: 24 }}>

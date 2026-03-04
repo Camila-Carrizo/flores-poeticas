@@ -278,6 +278,18 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 36px;
 }
 
+/* Color de flor aplicado a todo el cuerpo de la tarjeta (body + actions), no a la imagen */
+.flower-card-tint .ant-card-body,
+.flower-card-tint .ant-card-actions {
+  background: var(--flower-card-bg, #ffffff) !important;
+  transition: background-color var(--duration-smooth) var(--ease-poetic);
+}
+.flower-card-tint:hover .ant-card-body,
+.flower-card-tint:hover .ant-card-body,
+.flower-card-tint:hover .ant-card-actions {
+  background: var(--flower-card-bg, #ffffff) !important;
+}
+
 .flower-card-actions-bottom-left {
   position: absolute;
   bottom: 0;
@@ -314,13 +326,13 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
 }
 
-/* ——— Tarjeta "Agregar nueva flor" ——— */
+/* ——— Tarjeta "Agregar nueva flor": mismo tamaño que las cards de flores ——— */
 .add-flower-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
+  min-height: 320px;
   padding: 24px;
   border: 2px dashed rgba(79, 111, 82, 0.4);
   border-radius: 20px;
@@ -778,22 +790,22 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ——— Tarjeta "Agregar nueva flor": más compacta en móvil ——— */
+/* ——— Tarjeta "Agregar nueva flor": más compacta en móvil, mismo alto que cards en desktop ——— */
 .add-flower-card {
-  min-height: 200px;
+  min-height: 320px;
   padding: 20px 16px;
 }
 
 @media (min-width: 576px) {
   .add-flower-card {
-    min-height: 260px;
+    min-height: 368px;
     padding: 24px;
   }
 }
 
 @media (min-width: 768px) {
   .add-flower-card {
-    min-height: 280px;
+    min-height: 380px;
   }
 }
 

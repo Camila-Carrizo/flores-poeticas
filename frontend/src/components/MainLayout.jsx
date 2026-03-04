@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
-import { HomeOutlined, BgColorsOutlined } from '@ant-design/icons';
+import { Layout, Menu, Button } from 'antd';
+import { HomeOutlined, BgColorsOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import PageTransition from './PageTransition';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -12,6 +13,7 @@ const sidebarItems = [
 
 export default function MainLayout() {
   const location = useLocation();
+  const [siderCollapsed, setSiderCollapsed] = useState(true);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -19,6 +21,10 @@ export default function MainLayout() {
         width={200}
         breakpoint="lg"
         collapsedWidth={0}
+        collapsed={siderCollapsed}
+        onCollapse={setSiderCollapsed}
+        trigger={null}
+        collapsible
         style={{ background: 'linear-gradient(180deg, #1B3A2B 0%, #243d30 100%)' }}
       >
         <Menu
@@ -30,7 +36,15 @@ export default function MainLayout() {
         />
       </Sider>
       <Layout>
-        <Header style={{ display: 'flex', alignItems: 'center' }}>
+        <Header style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <Button
+            type="text"
+            icon={siderCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setSiderCollapsed(!siderCollapsed)}
+            className="sidebar-trigger-btn"
+            aria-label={siderCollapsed ? 'Abrir menú' : 'Cerrar menú'}
+            style={{ color: 'rgba(255,255,255,.85)', fontSize: 18 }}
+          />
           <Link to="/" className="herbario-title header-brand" style={{ textDecoration: 'none' }}>
             Mi Jardín
           </Link>

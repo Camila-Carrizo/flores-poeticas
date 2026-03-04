@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Row, Col, Spin, Alert, Empty, Modal, message, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Spin, Alert, Empty, Modal, message, Button, Input, Select, Space } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { flowerService } from '../services/flowerService';
+import { colorService } from '../services/colorService';
 import FlowerCard from '../components/FlowerCard';
 import FlowerForm from '../components/FlowerForm';
 
 export default function Home() {
   const [flowers, setFlowers] = useState([]);
+  const [colors, setColors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterName, setFilterName] = useState('');
+  const [filterColorId, setFilterColorId] = useState(undefined);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('create');
   const [selectedFlower, setSelectedFlower] = useState(null);
@@ -32,9 +36,22 @@ export default function Home() {
     }
   }, []);
 
+  const loadColors = useCallback(async () => {
+    try {
+      const { data } = await colorService.getColors();
+      setColors(data);
+    } catch {
+      setColors([]);
+    }
+  }, []);
+
   useEffect(() => {
     loadFlowers();
   }, [loadFlowers]);
+
+  useEffect(() => {
+    loadColors();
+  }, [loadColors]);
 
   const openCreateModal = () => {
     setModalMode('create');
@@ -135,11 +152,46 @@ export default function Home() {
         }
       : { name: '', image: '', poeticMeaning: '', color: undefined };
 
+  const filteredFlowers = flowers.filter((f) => {
+    const matchName = !filterName || f.name.toLowerCase().includes(filterName.trim().toLowerCase());
+    const matchColor =
+      filterColorId == null
+        ? true
+        : filterColorId === '__sin_color__'
+          ? !f.color
+          : f.color?._id === filterColorId;
+    return matchName && matchColor;
+  });
+
   return (
     <>
       <h1 className="herbario-title" style={{ marginBottom: 24 }}>
         Herbario poético
       </h1>
+
+      <Space direction="vertical" size="middle" style={{ width: '100%', marginBottom: 24 }}>
+        <Space wrap size="middle">
+          <Input
+            placeholder="Buscar por nombre de flor"
+            prefix={<SearchOutlined style={{ color: 'var(--color-text-secondary)' }} />}
+            value={filterName}
+            onChange={(e) => setFilterName(e.target.value)}
+            allowClear
+            style={{ width: 220 }}
+          />
+          <Select
+            placeholder="Filtrar por color"
+            allowClear
+            value={filterColorId}
+            onChange={setFilterColorId}
+            options={[
+              { value: '__sin_color__', label: 'Sin color' },
+              ...colors.map((c) => ({ value: c._id, label: c.name })),
+            ]}
+            style={{ width: 180 }}
+          />
+        </Space>
+      </Space>
 
       <Row gutter={[24, 24]} className="flower-grid">
         <Col xs={24} sm={12} md={8} lg={6}>
@@ -156,7 +208,7 @@ export default function Home() {
             <span className="add-flower-card__hint">Sumá una flor al herbario</span>
           </button>
         </Col>
-        {flowers.map((flower) => (
+        {filteredFlowers.map((flower) => (
           <Col xs={24} sm={12} md={8} lg={6} key={flower._id}>
             <FlowerCard
               flower={flower}
@@ -169,9 +221,9 @@ export default function Home() {
         ))}
       </Row>
 
-      {flowers.length === 0 && (
+      {filteredFlowers.length === 0 && (
         <Empty
-          description="Aún no hay flores. Usá la tarjeta de arriba para agregar la primera."
+          description={flowers.length === 0 ? 'Aún no hay flores. Usá la tarjeta de arriba para agregar la primera.' : 'Ninguna flor coincide con el filtro.'}
           image={Empty.PRESENTED_IMAGE_SIMPLE}
           style={{ marginTop: 48 }}
         />

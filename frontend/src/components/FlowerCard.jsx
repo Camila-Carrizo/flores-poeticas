@@ -35,24 +35,25 @@ export default function FlowerCard({ flower, mode = 'read', onEdit, onDelete, on
     : undefined;
 
   return (
-    <Card
-      className={`flower-card ${isManage ? 'flower-card--manage' : ''} ${onPreview ? 'flower-card--clickable' : ''}`}
-      hoverable
-      onClick={onPreview ? handleCardClick : undefined}
-      cover={
-        imageUrl ? (
-          <img
-            alt={flower.name}
-            src={imageUrl}
-            onError={(e) => {
-              e.target.src = fallbackUrl;
-            }}
-          />
-        ) : null
-      }
-      actions={actions}
-    >
-      <div className="flower-card-body-wrap" style={{ backgroundColor: bodyBg }}>
+    <div className="flower-card-tint" style={{ ['--flower-card-bg']: bodyBg }}>
+      <Card
+        className={`flower-card ${isManage ? 'flower-card--manage' : ''} ${onPreview ? 'flower-card--clickable' : ''}`}
+        hoverable
+        onClick={onPreview ? handleCardClick : undefined}
+        cover={
+          imageUrl ? (
+            <img
+              alt={flower.name}
+              src={imageUrl}
+              onError={(e) => {
+                e.target.src = fallbackUrl;
+              }}
+            />
+          ) : null
+        }
+        actions={actions}
+      >
+      <div className="flower-card-body-wrap">
         <Meta title={flower.name} />
         <p className="flower-card-poetic-preview">{briefMeaning}</p>
         {isManage && (
@@ -86,5 +87,6 @@ export default function FlowerCard({ flower, mode = 'read', onEdit, onDelete, on
         )}
       </div>
     </Card>
+    </div>
   );
 }

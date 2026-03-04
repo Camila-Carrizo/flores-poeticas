@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card, Form, Input, Button, List, Space, Modal, message, Popconfirm } from 'antd';
-import { PaletteOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { BgColorsOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { colorService } from '../services/colorService';
 
 export default function ColorsPage() {
@@ -101,7 +101,7 @@ export default function ColorsPage() {
         Colores
       </h1>
       <Card className="colors-form-card" style={{ marginBottom: 24 }}>
-        <Button type="primary" icon={<PaletteOutlined />} onClick={openCreate}>
+        <Button type="primary" icon={<BgColorsOutlined />} onClick={openCreate}>
           Agregar color
         </Button>
       </Card>

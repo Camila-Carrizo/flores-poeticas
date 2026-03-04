@@ -1,13 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { HomeOutlined, PaletteOutlined } from '@ant-design/icons';
+import { HomeOutlined, BgColorsOutlined } from '@ant-design/icons';
 import PageTransition from './PageTransition';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const sidebarItems = [
   { key: '/', icon: <HomeOutlined />, label: <Link to="/">Inicio</Link> },
-  { key: '/colores', icon: <PaletteOutlined />, label: <Link to="/colores">Colores</Link> },
+  { key: '/colores', icon: <BgColorsOutlined />, label: <Link to="/colores">Colores</Link> },
 ];
 
 export default function MainLayout() {
